@@ -48,11 +48,11 @@
 									    if (!isset($_SESSION['Username'])) {
 									      echo "
 
-									        <a href='landing_page.php''>Home</a>
-									        <a href='/about'>Donors</a>
-									        <a href='/join'>Contact</a>
+									        <a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='#appointment'>Contact</a>
 									        <a href='institution.php'>Institutions</a>
-									        <a href='/contact'>Admin</a>
+									        <a href='Patients.php'>Patients</a>
 									        <a href='sign_in.php'>Login</a>
 									    ";
 
@@ -60,11 +60,11 @@
 									    else
 									    {
 									      echo "
-											<a href='landing_page.php''>Home</a>
-									        <a href='/about'>Donors</a>
-									        <a href='/join'>Contact</a>
+											<a href='Index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='#appointment'>Contact</a>
 									        <a href='institution.php'>Institutions</a>
-									        <a href='/contact'>Admin</a>
+									        <a href='Patients.php'>Patients</a>
 									        <a href='logOut.php'>Log Out</a>
 									   ";
 									    }
@@ -91,7 +91,10 @@
 								<p>
 									We need donors to help us maintain our blood and organ banks
 								</p>
-								<button class="primary-btn2 mt-20 text-uppercase ">REGISTER AS DONOR<span class="lnr lnr-arrow-right"></span></button>
+								<a href="DonorReg.php">
+									<button class="primary-btn2 mt-20 text-uppercase ">REGISTER AS DONOR<span class="lnr lnr-arrow-right"></span></button>
+								</a>
+								
 							</div>
 							<div class="col-lg-6 d-flex align-self-end img-right">
 								<img class="img-fluid" src="img/volunteers.jpeg" alt="">
@@ -150,7 +153,7 @@
 				<div class="container-fluid">
 					<div class="row d-flex justify-content-end align-items-center">
 						<div class="col-lg-6 col-md-12 about-left no-padding">
-							<img class="img-fluid" src="img/blood-donor-match.png" alt="">
+							<img class="img-fluid" src="img/blood-donor-match.png" style="padding-bottom: 30px;" alt="">
 						</div>
 						<div class="col-lg-6  col-md-12">
 							<div class="single-footer-widget newsletter" style="color: black">
@@ -178,14 +181,12 @@
 										<br><br><br>
 										<br>
 									</form>
-									<form action="blood.php" method="POST">
+									<form action="organ.php" method="POST">
 										<h6>Search Organ</h6>
 										<div class="form-group row" style="width: 100%">
 											<div class="col-lg-6 d-flex flex-column">
 												<select name="Organ">
 													<option value="Kidney">Kidney</option>
-													<option value="Liver">Liver</option>
-													<option value="Retina">Retina</option>
 												</select>
 												
 											</div>
@@ -200,116 +201,7 @@
 							</div>
 						</div> 
 			</section>
-			<!-- End about Area -->
-
-			<!-- Start consultans Area -->
-			<!-- <section class="consultans-area section-gap" id="consultant">
-				<div class="container">
-					<div class="row d-flex justify-content-center">
-						<div class="col-md-8 pb-80 header-text">
-							<h1>Our Consultants</h1>
-							<p>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> labore  et dolore magna aliqua.
-							</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-3 col-md-3 vol-wrap">
-							<div class="single-con">
-								<div class="content">
-								    <a href="#" target="_blank">
-								      <div class="content-overlay"></div>
-								  		 <img class="content-image img-fluid d-block mx-auto" src="img/c1.jpg" alt="">
-								      	<div class="content-details fadeIn-bottom">
-								      		<h4>Andy Florence</h4>
-								      		<p>
-								      			inappropriate behavior
-								      		</p>
-								      	</div>
-								    </a>
-								 </div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-3 vol-wrap">
-							<div class="single-con">
-								<div class="content">
-								    <a href="#" target="_blank">
-								      <div class="content-overlay"></div>
-								  		 <img class="content-image img-fluid d-block mx-auto" src="img/c2.jpg" alt="">
-								      	<div class="content-details fadeIn-bottom">
-								      		<h4>Andy Florence</h4>
-								      		<p>
-								      			inappropriate behavior
-								      		</p>
-								      	</div>
-								    </a>
-								 </div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-3 vol-wrap">
-							<div class="single-con">
-								<div class="content">
-								    <a href="#" target="_blank">
-								      <div class="content-overlay"></div>
-								  		 <img class="content-image img-fluid d-block mx-auto" src="img/c3.jpg" alt="">
-								      	<div class="content-details fadeIn-bottom">
-								      		<h4>Andy Florence</h4>
-								      		<p>
-								      			inappropriate behavior
-								      		</p>
-								      	</div>
-								    </a>
-								 </div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-3 vol-wrap">
-							<div class="single-con">
-								<div class="content">
-								    <a href="#" target="_blank">
-								      <div class="content-overlay"></div>
-								  		 <img class="content-image img-fluid d-block mx-auto" src="img/c4.jpg" alt="">
-								      	<div class="content-details fadeIn-bottom">
-								      		<h4>Andy Florence</h4>
-								      		<p>
-								      			inappropriate behavior
-								      		</p>
-								      	</div>
-								    </a>
-								 </div>
-							</div>
-						</div>
-
-					</div>
-				</div>
-			</section> -->
-			<!-- End consultans Area -->
-
-			<!-- Start fact Area -->
-			<!-- <section class="facts-area pt-100 pb-100">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-3 col-md-6 single-fact">
-							<h2 class="counter">2536</h2>
-							<p class="text-uppercase">Clients Served</p>
-						</div>
-						<div class="col-lg-3 col-md-6 single-fact">
-							<h2 class="counter">6784</h2>
-							<p class="text-uppercase">X-rays Done</p>
-						</div>
-						<div class="col-lg-3 col-md-6 single-fact">
-							<h2 class="counter">1059</h2>
-							<p class="text-uppercase">Worldwide stuff</p>
-						</div>
-						<div class="col-lg-3 col-md-6 single-fact">
-							<h2 class="counter">2239</h2>
-							<p class="text-uppercase">Lives Saved</p>
-						</div>
-					</div>
-				</div>
-			</section> -->
-			<!-- end fact Area -->
-
-			<!-- Start blog Area -->
+		
 			<section class="blog-area section-gap">
 				<div class="container">
 					<div class="row justify-content-center">
@@ -330,9 +222,9 @@
 							<p class="why">
 								It is also needed for regular transfusions for people with conditions such as thalassaemia and sickle cell disease and is used to make products such as clotting factors for people with haemophilia.
 
-There is a constant need for regular blood supply because blood can be stored for only a limited time before use. Regular blood donations by a sufficient number of healthy people are needed to ensure that safe blood will be available whenever and wherever it is needed.
+								There is a constant need for regular blood supply because blood can be stored for only a limited time before use. Regular blood donations by a sufficient number of healthy people are needed to ensure that safe blood will be available whenever and wherever it is needed.
 
-Blood is the most precious gift that anyone can give to another person — the gift of life. A decision to donate your blood can save a life, or even several if your blood is separated into its components — red cells, platelets and plasma — which can be used individually for patients with specific conditions.
+								Blood is the most precious gift that anyone can give to another person — the gift of life. A decision to donate your blood can save a life, or even several if your blood is separated into its components — red cells, platelets and plasma — which can be used individually for patients with specific conditions.
 							</p>
 							
 						</div>
@@ -368,39 +260,40 @@ Blood is the most precious gift that anyone can give to another person — the g
 			<!-- end blog Area -->
 
 			<!-- Start about Area -->
-			<section class="about-area" id="appoinment">
-				<div class="container-fluid">
-					<div class="row d-flex justify-content-end align-items-center">
-						<div class="col-lg-6 col-md-12 about-left no-padding">
-							<img class="img-fluid" src="img/contact.jpg" alt="">
-						</div>
-						<div class="col-lg-6 col-md-12 about-right no-padding">
-							<h1>Contact Us <br> </h1>
-							<form class="booking-form" id="myForm" action="donate.php">
-								 	<div class="row">
-								 		<div class="col-lg-12 d-flex flex-column">
-							 				<input name="name" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Patient name'" class="form-control mt-20" required="" type="text" required>
-								 		</div>
-							 			<div class="col-lg-6 d-flex flex-column">
-											<input name="phone" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone'" class="form-control mt-20" required="" type="text" required>
-										</div>
-										
-										<div class="col-lg-12 flex-column">
-											<textarea class="form-control mt-20" name="message" placeholder="Message / Queries" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea>
-										</div>
+		
+	      <section class="about-area">
+        <div class="container-fluid">
+          <div class="row d-flex justify-content-end align-items-center">
+            <div class="col-lg-6 col-md-12 about-left no-padding">
+              <img class="img-fluid" src="img/contact.jpg" alt="">
+            </div>
+            <div id="appointment" class="col-lg-6 col-md-12 about-right no-padding">
+              <h1>Contact Us <br> </h1>
+              <form  method="post" action="connect.php">
+                   <div class="row">
+                    <div class="col-lg-12 d-flex flex-column">
+                      <input name="name" placeholder="Name" class="form-control mt-20" required="" type="text" required>
+                    </div>
+                    <div class="col-lg-6 d-flex flex-column">
+                      <input name="email" placeholder="Email"class="form-control mt-20" required="" type="email" required>
+                    </div>
+                    
+                    <div class="col-lg-12 flex-column">
+                      <textarea class="form-control mt-20" name="message" placeholder="Message / Queries" required=""></textarea>
+                    </div>
 
-										<div class="col-lg-12 d-flex justify-content-end send-btn">
-											<button class="submit-btn primary-btn mt-20 text-uppercase ">Send<span class="lnr lnr-arrow-right"></span></button>
-										</div>
+                    <div class="col-lg-12 d-flex justify-content-end send-btn">
+                      <button name="contact" class="submit-btn primary-btn mt-20 text-uppercase ">Send<span class="lnr lnr-arrow-right"></span></button>
+                    </div>
 
-										<div class="alert-msg"></div>
-									</div>
-					  		</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
+                    <div class="alert-msg"></div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 			<br><br>
 
 			<!-- start footer Area -->
@@ -412,9 +305,6 @@ Blood is the most precious gift that anyone can give to another person — the g
 								<h6>Organs donated</h6>
 								<ul class="footer-nav">
 									<li>Kidney</a></li>
-									<li>Liver</li>
-									<li>Cornea</li>
-									
 								</ul>
 							</div>
 						</div>

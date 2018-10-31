@@ -1,3 +1,91 @@
+<?php
+
+
+	session_start();
+	if (!isset($_SESSION['Username'])) {
+
+		header("location: sign_in.php");
+	}
+
+	  $servername = "localhost";
+	  $username = "root";
+	  $password = "";
+	  $dbName = "blood_organ";
+
+	  $con = new mysqli($servername, $username,$password, $dbName);
+
+	  $result1 = "";
+	  $result = "";
+
+	  if($con->connect_error)
+	  {
+	    die("connection failed: " . $con->connect_error);
+	  }
+
+	  $sql = "select * from users where Username = '".$_SESSION['Username']."'";
+	  $result = $con->query($sql); 
+	
+
+if (isset($_GET['DonorID'])) {
+	$DonorID = $_GET['DonorID'];
+	$sql1 = "select * from donor where DonorID = $DonorID";
+
+	$result = $con->query($sql); 
+	$result1 = $con->query($sql1); 
+	if(!($result = $con ->query($sql))){
+        echo $con->error;
+      }
+
+	if($result-> num_rows > 0) {
+
+	while ($row = $result->fetch_assoc()) 
+	{ 
+		$uname = $row['Name'];
+		$uemail = $row['email'];
+	}
+	}
+
+	if($result1-> num_rows > 0) {
+
+	while ($row1 = $result1->fetch_assoc()) 
+	{ 
+		$email = $row1['email'];
+	}
+	}
+
+}
+elseif (isset($_GET['InstitutionID'])) {
+ 	$InstitutionID = $_GET['InstitutionID'];
+ 	$sql1 = "select * from Institution where InstitutionID = $InstitutionID";
+
+	$result = $con->query($sql); 
+	$result1 = $con->query($sql1); 
+	if(!($result = $con ->query($sql))){
+        echo $con->error;
+      }
+
+	if($result-> num_rows > 0) {
+
+	while ($row = $result->fetch_assoc()) 
+	{ 
+		$uname = $row['Name'];
+		$uemail = $row['email'];
+	}
+	}
+
+	if($result1-> num_rows > 0) {
+
+	while ($row1 = $result1->fetch_assoc()) 
+	{ 
+		$email = $row1['Email'];
+	}
+	}
+ } 
+
+	
+
+?>
+
 	<!DOCTYPE html>
 	<html lang="zxx" class="no-js">
 	<head>
@@ -111,12 +199,9 @@
 									<?php
 									    if (!isset($_SESSION['Username'])) {
 									      echo "
-
-									        <a href='landing_page.php''>Home</a>
-									        <a href='/about'>Donors</a>
-									        <a href='/join'>Contact</a>
-									        <a href='Institution.php'>Institutions</a>
-									        <a href='/contact'>Admin</a>
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
 									        <a href='sign_in.php'>Login</a>
 									    ";
 
@@ -124,11 +209,9 @@
 									    else
 									    {
 									      echo "
-											<a href='landing_page.php''>Home</a>
-									        <a href='/about'>Donors</a>
-									        <a href='/join'>Contact</a>
-									        <a href='Institution.php'>Institutions</a>
-									        <a href='/contact'>Admin</a>
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
 									        <a href='logOut.php'>Log Out</a>
 									   ";
 									    }
@@ -150,12 +233,12 @@
 									  <div class="container">
 									    <form name="myform" action="connect.php" method="POST">
 									      <h2>Appointments</h2><br>
-									      <input type="text" required="" placeholder="Name" id="name" name="name" class="full-half">
-									      <input type="email" required="" placeholder="Your Email" id="email" name="email" class="full-half">
-									      <input type="email" required="" placeholder="Donor's Email" id="leMail" name="leMail" class="full-half">
+									      <input type="text" required="" placeholder="Name" value="<?php echo $uname?>" id="name" name="name" class="full-half">
+									      <input type="email" required="" placeholder="Your Email" id="email" value="<?php echo $uemail ?>" name="email" class="full-half">
+									      <input type="email" required="" placeholder="Donor's Email" id="leMail" value="<?php echo $email ?>" name="leMail" class="full-half">
 									      <input type="text" required="" placeholder="Subject" id="subject" name="subject">
 									      <textarea placeholder="Message" required="" id="message" name="message"></textarea>
-									      <input type="submit" value="Book">
+									      <input type="submit" name="patient" value="Book">
 									    </form>
 									  </div>
 									</div>
@@ -192,25 +275,7 @@
 								<h3>(+254) 702812342</h3>
 							</div>
 						</div>
-						 <div class="col-lg-6  col-md-12">
-							<!-- <div class="single-footer-widget newsletter">
-								<h6>Newsletter</h6>
-								<p>You can trust us. we only send promo offers, not a single spam.</p>
-								<div id="mc_embed_signup">
-									<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="form-inline">
-
-										<div class="form-group row" style="width: 100%">
-											<div class="col-lg-8 col-md-12">
-												<input name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '" required="" type="email">
-												<div style="position: absolute; left: -5000px;">
-													<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-												</div>
-											</div>
-
-											<div class="col-lg-4 col-md-12">
-												<button class="nw-btn primary-btn">Subscribe<span class="lnr lnr-arrow-right"></span></button>
-											</div> -->
-										</div>
+						
 										<div class="info"></div>
 									</form>
 								</div>

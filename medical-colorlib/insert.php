@@ -21,13 +21,26 @@ $cpassword = $mysqli->real_escape_string($_REQUEST['cpassword']);
 $sex = $mysqli->real_escape_string($_REQUEST['sex']);
 $PhoneNo = $mysqli->real_escape_string($_REQUEST['phoneNo']);
 $Address = $mysqli->real_escape_string($_REQUEST['address']);
+$email = $mysqli->real_escape_string($_REQUEST['email']);
+$NatId = $mysqli->real_escape_string($_REQUEST['NatId']);
 $DateOfBirth = $mysqli->real_escape_string($_REQUEST['DOB']);
+
+$target = "images/".basename($_FILES['Image']['name']);
+$Image = $_FILES['Image']['name'];
 
 $_SESSION['Username']=$username;
  
-// attempt insert query execution
-$sql = "INSERT INTO users (Name,Username,Password,Sex,PhoneNo,Address,DateOfBirth,AccessLevel) VALUES ('$name','$username','$password','$sex', '$PhoneNo','$Address','$DateOfBirth',0)";
-
+ if ($password===$cpassword) {
+ 	# code...
+$hash = password_hash($password, PASSWORD_DEFAULT);
+ 	$sql = "INSERT INTO users (Name,Username,Password,Sex,PhoneNo,email,NationalID,Address,DateOfBirth,image,AccessLevel) VALUES ('$name','$username','$hash','$sex', '$PhoneNo','$email','$NatId','$Address','$DateOfBirth','$Image',0)";
+if(move_uploaded_file($_FILES['Image']['tmp_name'], $target)){
+echo "Image Uploaded successfully";
+}
+else
+{
+echo "There was a problem uploading the Image ";
+}
 
 if($mysqli->query($sql) === true ){
     echo "Records inserted successfully."; 
@@ -37,6 +50,9 @@ if($mysqli->query($sql) === true ){
 } else {
     echo "ERROR: Could not able to execute $sql. " . $mysqli->error;
 }
+ }
+// attempt insert query execution
+
 // Close connection
 $mysqli->close();
 ?>

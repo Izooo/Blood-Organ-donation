@@ -1,5 +1,67 @@
 <?php
 session_start();
+$msg ="";
+if (!isset($_SESSION['Donorname'])) {
+
+header("location: Hospitalin.php");
+die();
+}
+else
+{
+	header("location: donor.php");
+die();
+}
+/* Attempt MySQL server connection. Assuming you are running MySQL
+server with default setting (user 'root' with no password) */
+  $servername = "localhost";
+  $username = "root";
+  $pass = "";
+  $dbName = "Blood_Organ";
+$con = new mysqli($servername, $username, $pass, $dbName);
+
+// Check connection
+if($con->connect_error)
+  {
+    die("connection failed: " . $con->connect_error);
+  }
+
+if (isset($_POST['submit'])) {
+    // Escape user inputs for security
+$email = $con->real_escape_string($_REQUEST['email']);
+$Password = $con->real_escape_string($_REQUEST['Password']);
+
+echo $_SESSION['Donorname'];
+
+    
+      $sql = "SELECT name,email,Password FROM donor WHERE email = '".$email."' ";
+
+      if(!($result = $con ->query($sql))){
+        echo $con->error;
+      }
+      if ($result->num_rows > 0) {
+        
+        while ($row = $result-> fetch_assoc()) {
+          if ($row["email"] == $email && password_verify($Password, $row["Password"])) {
+           $_SESSION['Donorname']=$row["name"];
+            header("location: Donor.php");
+          }
+          else
+          {
+            $_SESSION['Error']="Invalid  Username or Password";
+     if( isset($_SESSION['Error']) )
+      {
+        echo $_SESSION['Error'];
+
+        unset($_SESSION['Error']);
+        //header("location: login.html");
+
+      }
+    }
+  }
+}
+
+      
+}
 
 ?>
 <!DOCTYPE html>
@@ -44,13 +106,27 @@ session_start();
 							</div>
 							<div class="main-menubar d-flex align-items-center">
 								<nav class="hide">
-									<a href="#home">Home</a>
-									<a href="#service">Services</a>
-									<a href="#appoinment">Booking</a>
-									<a href="#consultant">Team</a>
-									<a href="#consultant">Institutions</a>
-									<a href="#consultant">Admin</a>
-									<a href="#consultant">Log In</a>
+									<?php
+									    if (!isset($_SESSION['Donorname'])) {
+									      echo "
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
+									        <a href='sign_in.php'>Login</a>
+									    ";
+
+									    }
+									    else
+									    {
+									      echo "
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
+									        <a href='logOut.php'>Log Out</a>
+									   ";
+									    }
+									    
+									    ?>
 
 								</nav>
 								<div class="menu-bar"><span class="lnr lnr-menu"></span></div>
@@ -59,38 +135,17 @@ session_start();
 					</div>
 				</div>
 			</header>
-			<!-- End Header Area -->
-			<!-- start banner Area -->
-		<!-- 	<section class="banner-area relative" id="home">
-				<div class="container">
-						<div class="row fullscreen align-items-center justify-content-center">
-							<div class="banner-content col-lg-6 col-md-12">
-								<h1 class="text-uppercase">
-									Help those in need<br>
-									by donating
-								</h1>
-								<p>
-									Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore  et dolore magna aliqua.
-								</p>
-								<button class="primary-btn2 mt-20 text-uppercase ">REGISTER AS DONOR<span class="lnr lnr-arrow-right"></span></button>
-							</div>
-							<div class="col-lg-6 d-flex align-self-end img-right">
-								<img class="img-fluid" src="img/kids.jpg" alt="">
-							</div>
-						</div>
-				</div>
-			</section> -->
-			<!-- End banner Area -->
 
 			<section class="blog-area section-gap">
 				<div class="container">
 					<div class="row justify-content-center">
+<!--  Request me for a signup form or any type of help  -->
 <div class="login-form">    
     <form action="DonorIn.php" method="post">
     <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
-      <h4 class="modal-title" style="text-align: center;">Login</h4><br>
+      <h4 class="modal-title" style="text-align: center">Login</h4>
         <div class="form-group">
-            <input type="text" class="form-control" name="Username" placeholder="Username" required="required">
+            <input type="email" class="form-control" name="email" placeholder="you@gmail.com" required="required">
         </div>
         <div class="form-group">
             <input type="password" class="form-control" name="Password" placeholder="Password" required="required">
@@ -103,61 +158,6 @@ session_start();
         <br>
         Don't have an account? <a href="sign_up.php">Sign up</a></div>             
     </form>     
-<?php
-
-/* Attempt MySQL server connection. Assuming you are running MySQL
-server with default setting (user 'root' with no password) */
-  $servername = "localhost";
-  $username = "root";
-  $pass = "";
-  $dbName = "Blood_Organ";
-$con = new mysqli($servername, $username, $pass, $dbName);
-
-// Check connection
-if($con->connect_error)
-  {
-    die("connection failed: " . $con->connect_error);
-  }
-
-if (isset($_POST['submit'])) {
-    // Escape user inputs for security
-$Username = $con->real_escape_string($_REQUEST['Username']);
-$Password = $con->real_escape_string($_REQUEST['Password']);
-
-echo $_SESSION['username']=$Username;
-
-    
-      $sql = "SELECT UserName,Password FROM donor WHERE UserName = '".$Username."'and Password = '".$Password."' ";
-
-      if(!($result = $con ->query($sql))){
-        echo $con->error;
-      }
-      if ($result->num_rows > 0) {
-        
-        while ($row = $result-> fetch_assoc()) {
-          if ($row["UserName"] == $Username && $row["Password"]==$Password) {
-         
-            header("location: landing_page.php");
-          }
-          else
-          {
-            $_SESSION['Error']="Invalid  Username or Password";
-     if( isset($_SESSION['Error']) )
-      {
-        echo $_SESSION['Error'];
-
-        unset($_SESSION['Error']);
-        //header("location: login.html");
-
-      }
-    }
-  }
-}
-
-      
-}
-
-?>
 
 </div>
 </div>
@@ -191,23 +191,6 @@ echo $_SESSION['username']=$Username;
 							</div>
 						</div>
 						 <div class="col-lg-6  col-md-12">
-							<!-- <div class="single-footer-widget newsletter">
-								<h6>Newsletter</h6>
-								<p>You can trust us. we only send promo offers, not a single spam.</p>
-								<div id="mc_embed_signup">
-									<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="form-inline">
-
-										<div class="form-group row" style="width: 100%">
-											<div class="col-lg-8 col-md-12">
-												<input name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '" required="" type="email">
-												<div style="position: absolute; left: -5000px;">
-													<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-												</div>
-											</div>
-
-											<div class="col-lg-4 col-md-12">
-												<button class="nw-btn primary-btn">Subscribe<span class="lnr lnr-arrow-right"></span></button>
-											</div> -->
 										</div>
 										<div class="info"></div>
 									</form>
@@ -215,15 +198,8 @@ echo $_SESSION['username']=$Username;
 							</div>
 						</div> 
 					</div>
-<!-- 
-					<div class="row footer-bottom d-flex justify-content-between">
-						
-						<div class="col-lg-4 col-sm-12 footer-social">
-							<a href="#"><i class="fa fa-facebook"></i></a>
-							<a href="#"><i class="fa fa-twitter"></i></a>
-							
-						</div>
-					</div> -->
+
+					
 				</div>
 			</footer>
 			<!-- End footer Area -->

@@ -1,13 +1,19 @@
 <?php
+session_start();
+require_once('db.php');
+  $sql = "select * from users where Username = '".$_SESSION['Username']."'";
+      $result = $con->query($sql); 
+    if(!($result = $con ->query($sql))){
+        echo $con->error;
+      }
 
-$name = $_POST['name'];
-$email = $_POST['email'];
-$emails = $_POST['leMail'];
-$subjects =$_POST['subject'];
-$message = $_POST['message'];
+    if($result-> num_rows > 0) {
 
-echo $emails;
-
+    while ($row = $result->fetch_assoc()) 
+    { 
+        $natID = $row['NationalID'];
+    }
+    }
 
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
@@ -20,7 +26,7 @@ require 'vendor/autoload.php';
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 try {
     //Server settings
-    $mail->SMTPDebug = 3;                                 // Enable verbose debug output
+    //$mail->SMTPDebug = 3;                                 // Enable verbose debug output
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
@@ -32,6 +38,16 @@ try {
 )
 );                                    // TCP port to connect to
 
+    if (isset($_POST['patient'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $emails = $_POST['leMail'];
+    $subjects =$_POST['subject'];
+    $message = $_POST['message'];
+
+    $message1 = $message . "<br>"."National ID: ". $natID . "<br>"."Please reply to this email. "."<br>" ."Thank You ". "<br>" . $email;
+
+
     //Recipients
     $mail->setFrom($email, $name);
     $mail->addAddress($emails);     // Add a recipient
@@ -41,13 +57,67 @@ try {
     //Content
     $mail->isHTML(true);                                  // Set email format to HTML
     $mail->Subject = $subjects;
-    $mail->Body    = $message;
-    $mail->AltBody = $message;
+    $mail->Body    = $message1;
+    $mail->AltBody = $message1;
 
     $mail->send();
+    header("location: index.php");
     echo 'Message has been sent';
-} catch (Exception $e) {
-    echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+    
+} 
+elseif (isset($_POST['contact'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $emails = "isaac.kiplel@strathmore.edu";
+    $subjects = "Queries on the system";
+    $message = $_POST['message'];
+    
+    $message1 = $message . "<br>" . "Please reply to this email. "."<br>" ."Thank You ". "<br>" . $email;
+      //Recipients
+    $mail->setFrom($email, $name);
+    $mail->addAddress($emails);     // Add a recipient
+
+
+   
+    //Content
+    $mail->isHTML(true);                                  // Set email format to HTML
+    $mail->Subject = $subjects;
+    $mail->Body    = $message1;
+    $mail->AltBody = $message1;
+
+    $mail->send();
+    header("location: index.php");
+    echo 'Message has been sent';
 }
+elseif (isset($_POST['admin'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $emails = $_POST['email2'];
+    $subjects = $_POST['Subject'];;
+    $message = $_POST['message'];
+    
+    $message1 = $message . "<br>" . "Please reply to this email. "."<br>" ."Thank You ". "<br>" . $email;
+      //Recipients
+    $mail->setFrom($email, $name);
+    $mail->addAddress($emails);     // Add a recipient
+
+
+   
+    //Content
+    $mail->isHTML(true);                                  // Set email format to HTML
+    $mail->Subject = $subjects;
+    $mail->Body    = $message1;
+    $mail->AltBody = $message1;
+
+    $mail->send();
+    header("location: admin.php");
+    echo 'Message has been sent';
+}
+}
+catch (Exception $e) {
+    echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+
+}
+
 ?>
 

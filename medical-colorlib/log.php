@@ -22,39 +22,42 @@ $Password = $con->real_escape_string($_REQUEST['Password']);
 
 $_SESSION['Username'] = $Username;
     
-      $sql = "SELECT Username,Password,AccessLevel FROM users WHERE Username = '".$Username."'and Password = '".$Password."' ";
+      $sql = "SELECT Username,Password,AccessLevel FROM users WHERE Username = '".$Username."' ";
       
 
       if(!($result = $con ->query($sql))){
         echo $con->error;
       }
+/*      if (password_verify($password1, $hash)) {
+    // Success!
+    echo $hash;
+}
+else {
+    // Invalid credentials
+    echo "Passwords do not match";
+}*/
+//echo $sql;
 
       if ($result-> num_rows > 0) {
+        print_r($result) ;
         while ($row = $result-> fetch_assoc()) {
-          if ($row["Username"]== $Username && $row["Password"]==$Password) {
-           
+          echo $row["Password"];
+          if ($row["Username"]== $Username && password_verify($Password, $row["Password"])) {
+           echo "success";
             if($row["AccessLevel"] == 1)
             {
-              header("location: Admin.html");
+              header("location: Admin.php");
             } else
             
            header("location: index.php");
           }
           else
           {
-            $_SESSION['Error']="Invalid  Username or Password";
-     if( isset($_SESSION['Error']) )
-      {
-        echo $_SESSION['Error'];
+            echo "failed";
 
-        unset($_SESSION['Error']);
-        //header("location: login.html");
-
-      }
+          
     }
   }
 }
-
-      
 
 ?>

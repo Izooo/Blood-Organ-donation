@@ -28,7 +28,7 @@ $Password = $con->real_escape_string($_REQUEST['Password']);
 
 //$_SESSION['email']=$email;
     
-      $sql = "SELECT Name,Email,Password FROM Institution WHERE Email = '".$email."'and Password = '".$Password."' ";
+      $sql = "SELECT Name,Email,Password FROM Institution WHERE Email = '".$email."'";
       
 
       if(!($result = $con ->query($sql))){
@@ -37,7 +37,7 @@ $Password = $con->real_escape_string($_REQUEST['Password']);
 
       if ($result-> num_rows > 0) {
         while ($row = $result-> fetch_assoc()) {
-          if ($row["Email"]== $email && $row["Password"]==$Password) { 
+          if ($row["Email"]== $email && password_verify($Password, $row["Password"])) { 
             $_SESSION['Name'] = $row["Name"];  
             echo $_SESSION['Name']; 
          	header('location: Institution.php');
@@ -104,32 +104,27 @@ $Password = $con->real_escape_string($_REQUEST['Password']);
 							</div>
 							<div class="main-menubar d-flex align-items-center">
 								<nav>
-								       <?php
-					                      if (!isset($_SESSION['Name'])) {
-					                        echo "
+								      <?php
+									    if (!isset($_SESSION['Name'])) {
+									      echo "
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
+									        <a href='sign_in.php'>Login</a>
+									    ";
 
-					                          <a href='landing_page.php''>Home</a>
-					                          <a href='/about'>Donors</a>
-					                          <a href='/join'>Contact</a>
-					                          <a href='Institution.php'>Institutions</a>
-					                          <a href='/contact'>Admin</a>
-					                          <a href='sign_in.php'>Login</a>
-					                      ";
-
-					                      }
-					                      else
-					                      {
-					                        echo "
-					                      <a href='landing_page.php''>Home</a>
-					                          <a href='/about'>Donors</a>
-					                          <a href='/join'>Contact</a>
-					                          <a href='Institution.php'>Institutions</a>
-					                          <a href='/contact'>Admin</a>
-					                          <a href='logOut.php'>Log Out</a>
-					                     ";
-					                      }
-					                      
-					                      ?>
+									    }
+									    else
+									    {
+									      echo "
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
+									        <a href='logOut.php'>Log Out</a>
+									   ";
+									    }
+									    
+									    ?>
    
 								</nav>
 								<div class="menu-bar"><span class="lnr lnr-menu"></span></div>

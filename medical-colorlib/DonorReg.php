@@ -44,14 +44,27 @@ session_start();
 							</div>
 							<div class="main-menubar d-flex align-items-center">
 								<nav class="hide">
-									<a href="#home">Home</a>
-									<a href="#service">Services</a>
-									<a href="#appoinment">Booking</a>
-									<a href="#consultant">Team</a>
-									<a href="#consultant">Institutions</a>
-									<a href="#consultant">Admin</a>
-									<a href="#consultant">Log In</a>
+									<?php
+									    if (!isset($_SESSION['Donorname'])) {
+									      echo "
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
+									        <a href='sign_in.php'>Login</a>
+									    ";
 
+									    }
+									    else
+									    {
+									      echo "
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
+									        <a href='logOut.php'>Log Out</a>
+									   ";
+									    }
+									    
+									    ?>
 								</nav>
 								<div class="menu-bar"><span class="lnr lnr-menu"></span></div>
 							</div>
@@ -85,109 +98,106 @@ session_start();
 			<section class="blog-area section-gap">
 				<div class="container">
 					<div class="row justify-content-center">
-						<div class="login-form">    
-						    <form action="DonorReg.php" method="post">
-						    <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
-						      <h4 class="modal-title"style="text-align: center;">Donor's Registration</h4><br>
-						        <div class="form-group">
-						            <input type="text" class="form-control" name="name" placeholder="Full names" required="required">
-						        </div>
-						         <div class="form-group">
-						            <input type="text" class="form-control" name="username" placeholder="Username" required="required">
-						        </div>
-						         <div class="form-group">
-						            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
-						        </div>
-						         <div class="form-group">
-						            <input type="password" class="form-control" name="cpassword" placeholder="Confirm_Password" required="required">
-						          </div>
-						         <div class="form-group">
-						        <select name="Sex"  class="form-control" style="width: 330px;">
-						          <option value="Male">Male</option>
-						          <option value="Female">Female</option>
-						      </select>
-						        </div><br><br><br>
-						         <div class="form-group">
-						            <input type="text" class="form-control" name="phoneNo" placeholder="Contact" required="required">
-						        </div>
+						<!--  Request me for a signup form or any type of help  -->
+<div class="login-form">    
+    <form action="Donor_registration.php" method="post" enctype="multipart/form-data" >
+    <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
+      <h4 class="modal-title" style="text-align: center;">Register</h4><br>
+        <div class="form-group">
+            <input type="text" class="form-control" name="name" placeholder="Full names" required="required">
+        </div>
+         <div class="form-group">
+            <input type="text" class="form-control" name="email" placeholder="you@gmail.com" required="required">
+        </div>
+         <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+        </div>
+         <div class="form-group">
+            <input type="password" class="form-control" name="cpassword" placeholder="Confirm_Password" required="required">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="NationalID" placeholder="National ID" required="required">
+          </div>
+         <div class="form-group">
+        <select name="Sex"  class="form-control" style="width: 330px;">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+      </select><br><br>
+        </div>
+         <div class="form-group">
+            <input type="text" class="form-control" name="phoneNo" placeholder="Contact" required="required">
+        </div>
+         <div class="form-group">
+            <input type="text" class="form-control" name="address" placeholder="Address" required="required">
+        </div>
+        <div class="form-group">
+          <select name="type" class="form-control" style="width: 330px;" onchange="java_script_:show(this.options[this.selectedIndex].value)">
+            <option>Select a Choice</option>
+            <option>Donate My Blood</option>
+            <option>Donate My Organ</option>
+          </select><br><br>
+        </div>
+        <div class="form-group" id="bloodDiv" style="display: none">
+        <select name="BloodType" class="form-control" style="width: 330px;">
+          <option disabled selected value>Select Blood Type</option>
+          <option value="A+">A+</option>
+          <option value="O+">O+</option>
+          <option value="B+">B+</option>
+          <option value="AB+">AB+</option>
+          <option value="A-">A-</option>
+          <option value="O-">O-</option>
+          <option value="B-">B-</option>
+          <option value="AB-">AB-</option>
+      </select><br><br>
+        </div>
 
-						         <div class="form-group">
-						            <input type="text" class="form-control" name="address" placeholder="Address" required="required">
-						        </div>
-						        <div class="form-group">
-						            <input type="text" class="form-control" name="email" placeholder="Email Address" required="required">
-						        </div>
-						        <div class="form-group">
-						        <select name="BloodType" class="form-control" style="width: 330px;">
-						          <option value="A+">A+</option>
-						          <option value="O+">O+</option>
-						          <option value="B+">B+</option>
-						          <option value="AB+">AB+</option>
-						          <option value="A-">A-</option>
-						          <option value="O-">O-</option>
-						          <option value="B-">B-</option>
-						          <option value="AB-">AB-</option>
-						      </select>
-						        </div><br><br><br>
-						      
-						         <div class="form-group">
-						            <input type="text" class="form-control" name="DOB" placeholder="yyyy/mm/dd" required="required">
-						        </div>
-						        <div class="form-group small clearfix">
-						            <label class="checkbox-inline"><input type="checkbox"> Remember me</label>
-						            <a href="#" class="forgot-link">Forgot Password?</a>
-						        </div> 
-						        <input type="submit" name="submit" class="btn btn-primary btn-block btn-lg" value="Register">              
-						    </form>
+        <div class="form-group" id="organDiv" style="display: none;">
+      <select name="Organ" class="form-control" style="width: 330px;">
+        <option disabled selected value>Select Organ</option>
+        <option value="Kidney">Kidney</option>
+      </select><br><br>
 
-						<?php
-						/* Attempt MySQL server connection. Assuming you are running MySQL
-						server with default setting (user 'root' with no password) */
-						$mysqli = new mysqli("localhost", "root", "", "Blood_Organ");
-						 
-						// Check connection
-						if($mysqli === false){
-						    die("ERROR: Could not connect. " . $mysqli->connect_error);
-						}
-
-						if (isset($_POST['submit'])) {
-						 
-						// Escape user inputs for security
-						$name = $mysqli->real_escape_string($_POST['name']);
-						$username = $mysqli->real_escape_string($_REQUEST['username']);
-						$password = $mysqli->real_escape_string($_REQUEST['password']);
-						$cpassword = $mysqli->real_escape_string($_REQUEST['cpassword']);
-						$sex = $mysqli->real_escape_string($_REQUEST['Sex']);
-						$PhoneNo = $mysqli->real_escape_string($_REQUEST['phoneNo']);
-						$Address = $mysqli->real_escape_string($_REQUEST['address']);
-						$blood_type = $mysqli->real_escape_string($_REQUEST['BloodType']);
-						$email = $mysqli->real_escape_string($_REQUEST['email']);
-						$DateOfBirth = $mysqli->real_escape_string($_REQUEST['DOB']);
+        </div>
+      
+         <div class="form-group">
+            <input type="text" class="form-control" name="DOB" placeholder="yyyy/mm/dd" required="required">
+        </div>
+        <div class="form-group">
+           Image:<br><input type="file" name="Image"><br>
+          </div>
+        <div class="form-group small clearfix">
+            <label class="checkbox-inline"><input type="checkbox"> Remember me</label>
+            <a href="#" class="forgot-link">Forgot Password?</a>
+        </div> 
+        <input type="submit" name="submit" class="btn btn-primary btn-block btn-lg" value="Register">              
+    </form>
 
 
+    
 
-						$_SESSION['name'] = $name;
-						 
-						// attempt insert query execution
-						$sql = "INSERT INTO donor (Name,UserName,Password,PhoneNo,DateOfBirth,Address,Sex,BloodType,email) VALUES ('$name','$username','$password', '$PhoneNo','$DateOfBirth','$Address','$sex','$blood_type','$email')";
+</div>
 
+<script type="text/javascript">
+  function show(aval) {
+    if ( aval == "Donate My Blood") {
+    bloodDiv.style.display='block';
+    } else
+    {
+      bloodDiv.style.display="none";
+    }
+    if (aval == "Donate My Organ") {
+    organDiv.style.display='block';
+    } else
+    {
+      organDiv.style.display="none";
+      
+    }
+   }
+</script>
 
-						if($mysqli->query($sql) === true ){
-						    echo "Records inserted successfully."; 
-						    header("location: DonorIn.php");
-						} else {
-						    echo "ERROR: Could not able to execute $sql. " . $mysqli->error;
-						}
-
-						}
-
-						// Close connection
-						$mysqli->close();
-						?>     
-						    
-						</div>
 </div>
 </div>
+</section>
 
 <br>
 <br><br>

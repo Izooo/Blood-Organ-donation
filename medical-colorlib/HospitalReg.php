@@ -43,12 +43,9 @@
                  <?php
                       if (!isset($_SESSION['Name'])) {
                         echo "
-
-                          <a href='landing_page.php''>Home</a>
-                          <a href='/about'>Donors</a>
-                          <a href='/join'>Contact</a>
-                          <a href='Institution.php'>Institutions</a>
-                          <a href='/contact'>Admin</a>
+                      <a href='index.php''>Home</a>
+                          <a href='DonorIn.php'>Donors</a>
+                          <a href='institution.php'>Institutions</a>
                           <a href='sign_in.php'>Login</a>
                       ";
 
@@ -56,11 +53,9 @@
                       else
                       {
                         echo "
-                      <a href='landing_page.php''>Home</a>
-                          <a href='/about'>Donors</a>
-                          <a href='/join'>Contact</a>
-                          <a href='Institution.php'>Institutions</a>
-                          <a href='/contact'>Admin</a>
+                      <a href='index.php''>Home</a>
+                          <a href='DonorIn.php'>Donors</a>
+                          <a href='institution.php'>Institutions</a>
                           <a href='logOut.php'>Log Out</a>
                      ";
                       }
@@ -74,28 +69,6 @@
           </div>
         </div>
       </header>
-      <!-- End Header Area -->
-      <!-- start banner Area -->
-    <!--  <section class="banner-area relative" id="home">
-        <div class="container">
-            <div class="row fullscreen align-items-center justify-content-center">
-              <div class="banner-content col-lg-6 col-md-12">
-                <h1 class="text-uppercase">
-                  Help those in need<br>
-                  by donating
-                </h1>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore  et dolore magna aliqua.
-                </p>
-                <button class="primary-btn2 mt-20 text-uppercase ">REGISTER AS DONOR<span class="lnr lnr-arrow-right"></span></button>
-              </div>
-              <div class="col-lg-6 d-flex align-self-end img-right">
-                <img class="img-fluid" src="img/kids.jpg" alt="">
-              </div>
-            </div>
-        </div>
-      </section> -->
-      <!-- End banner Area -->
 
       <section class="blog-area section-gap">
         <div class="container">
@@ -152,9 +125,11 @@ $PhoneNo = $mysqli->real_escape_string($_REQUEST['phoneNo']);
 $Address = $mysqli->real_escape_string($_REQUEST['address']);
 
 $_SESSION['Name']=$name;
- 
-// attempt insert query execution
-$sql = "INSERT INTO Institution (Name,Password,PhoneNo,Address,Location, Email) VALUES ('$name','$passwords','$PhoneNo','$Address', '$location', '$email')";
+ if ($passwords == $cpassword) {
+   # code...
+  // attempt insert query execution
+  $hash = password_hash($password, PASSWORD_DEFAULT);
+$sql = "INSERT INTO Institution (Name,Password,PhoneNo,Address,Location, Email) VALUES ('$name','$hash','$PhoneNo','$Address', '$location', '$email')";
 
 
 if($mysqli->query($sql) === true ){
@@ -164,6 +139,8 @@ if($mysqli->query($sql) === true ){
     echo "ERROR: Could not able to execute $sql. " . $mysqli->error;
 }
 }
+ }
+
 
 // Close connection
 $mysqli->close();

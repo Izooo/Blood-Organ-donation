@@ -51,12 +51,10 @@
 									<?php
 									    if (!isset($_SESSION['Username'])) {
 									      echo "
-
-									        <a href='landing_page.php''>Home</a>
-									        <a href='#'>Donors</a>
-									        <a href='/join'>Contact</a>
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
 									        <a href='institution.php'>Institutions</a>
-									        <a href='/contact'>Admin</a>
+									         <a href='Patients.php'>Patients</a>
 									        <a href='sign_in.php'>Login</a>
 									    ";
 
@@ -64,11 +62,10 @@
 									    else
 									    {
 									      echo "
-											<a href='landing_page.php''>Home</a>
-									        <a href='/about'>Donors</a>
-									        <a href='/join'>Contact</a>
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
 									        <a href='institution.php'>Institutions</a>
-									        <a href='/contact'>Admin</a>
+									         <a href='Patients.php'>Patients</a>
 									        <a href='logOut.php'>Log Out</a>
 									   ";
 									    }
@@ -95,7 +92,6 @@
 								       <th>Location</th>
 								       <th>Email</th>
 								       <th>Blood Type</th>
-								       <th>Date</th>
 								       <th>Action</th>
 								      </tr>
 								    </thead>
@@ -120,59 +116,60 @@
 								  $BloodType = $con->real_escape_string($_REQUEST['BloodType']);
 
 								  if ($BloodType=== 'O+') {
-							        $sql = "SELECT Name,PhoneNo,email,Address,Sex,BloodType FROM donor WHERE BloodType = 'O+' or BloodType = 'O-'";
-							        $sql1  = "SELECT Name,PhoneNo,Address,Location,Email, BloodType,Amount,laDate FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'O+' or bloodbank.BloodType ='O-'";  
+							        $sql = "SELECT donor.DonorID,Name,PhoneNo,email,Address,Sex,BloodType FROM `donor` JOIN blood ON donor.DonorID = blood.DonorID HAVING BloodType = 'O+' or BloodType = 'O-'";
+							        $sql1  = "SELECT institution.InstitutionID,Name,PhoneNo,Address,Location,Email, BloodType,Amount FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'O+' or bloodbank.BloodType ='O-'";  
 
 							        $result = $con->query($sql);
 							        $result1 = $con->query($sql1);
 							      }
 							      elseif ($BloodType=== 'A+') {
-							       $sql = "SELECT Name,PhoneNo,email,Address,Sex,BloodType FROM donor WHERE BloodType = 'O+' or BloodType = 'O-' or BloodType = 'A+' or BloodType = 'A-'";  
+							      	
+							       $sql = "SELECT donor.DonorID,Name,PhoneNo,email,Address,Sex,BloodType FROM `donor` JOIN blood ON donor.DonorID = blood.DonorID HAVING BloodType = 'O+' or BloodType = 'O-' or BloodType = 'A+' or BloodType = 'A-'";  
 							        $result = $con->query($sql);
-							        $sql1  = "SELECT Name,PhoneNo,Address,Location,Email, BloodType,Amount,laDate FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'O+' or bloodbank.BloodType ='O-' or bloodbank.BloodType ='A+' or bloodbank.BloodType ='A-'";  
+							        $sql1  = "SELECT institution.InstitutionID,Name,PhoneNo,Address,Location,Email, BloodType,Amount FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'O+' or bloodbank.BloodType ='O-' or bloodbank.BloodType ='A+' or bloodbank.BloodType ='A-'";  
 
 							        $result = $con->query($sql);
 							        $result1 = $con->query($sql1);
 							      }
 							      elseif ($BloodType=== 'B+') {
-							       $sql = "SELECT Name,PhoneNo,email,Address,Sex,BloodType FROM donor WHERE BloodType = 'O+' or BloodType = 'O-' or BloodType = 'B+' or BloodType = 'B-'"; 
-							       $sql1  = "SELECT Name,PhoneNo,Address,Location,Email, BloodType,Amount,laDate FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'O+' or bloodbank.BloodType ='O-' or bloodbank.BloodType ='B+' or bloodbank.BloodType ='B-'";  
+							       $sql = "SELECT donor.DonorID,Name,PhoneNo,email,Address,Sex,BloodType FROM `donor` JOIN blood ON donor.DonorID = blood.DonorID HAVING BloodType = 'O+' or BloodType = 'O-' or BloodType = 'B+' or BloodType = 'B-'"; 
+							       $sql1  = "SELECT institution.InstitutionID,Name,PhoneNo,Address,Location,Email, BloodType,Amount FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'O+' or bloodbank.BloodType ='O-' or bloodbank.BloodType ='B+' or bloodbank.BloodType ='B-'";  
 
 							        $result1 = $con->query($sql1); 
 							        $result = $con->query($sql);
 							      }
 							      elseif ($BloodType=== 'AB+') {
-							       $sql = "SELECT Name,PhoneNo,email,Address,Sex,BloodType FROM donor";  
-							       $sql1  = "SELECT Name,PhoneNo,Address,Location,Email, BloodType,Amount,laDate FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType";  
+							       $sql = "SELECT donor.DonorID,Name,PhoneNo,email,Address,Sex,BloodType FROM `donor` JOIN blood ON donor.DonorID = blood.DonorID";  
+							       $sql1  = "SELECT institution.InstitutionID,Name,PhoneNo,Address,Location,Email, BloodType,Amount FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType";  
 
 							        $result1 = $con->query($sql1);
 							        $result = $con->query($sql);
 							      }
 							      elseif ($BloodType=== 'A-') {
-							       $sql = "SELECT Name,PhoneNo,email,Address,Sex,BloodType FROM donor WHERE BloodType = 'A-' or BloodType = 'O-'";  
-							       $sql1  = "SELECT Name,PhoneNo,Address,Location,Email, BloodType,Amount,laDate FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'A-' or bloodbank.BloodType ='O-'";  
+							       $sql = "SELECT donor.DonorID,Name,PhoneNo,email,Address,Sex,BloodType FROM `donor` JOIN blood ON donor.DonorID = blood.DonorID HAVING BloodType = 'A-' or BloodType = 'O-'";  
+							       $sql1  = "SELECT institution.InstitutionID,Name,PhoneNo,Address,Location,Email, BloodType,Amount FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'A-' or bloodbank.BloodType ='O-'";  
 
 							        $result1 = $con->query($sql1);
 							        $result = $con->query($sql);
 							      }
 							      elseif ($BloodType=== 'O-') {
-							       $sql = "SELECT Name,PhoneNo,email,Address,Sex,BloodType FROM donor WHERE BloodType = 'O-'";  
+							       $sql = "SELECT donor.DonorID,Name,PhoneNo,email,Address,Sex,BloodType FROM `donor` JOIN blood ON donor.DonorID = blood.DonorID HAVING BloodType = 'O-'";  
 							        $result = $con->query($sql);
-							        $sql1  = "SELECT Name,PhoneNo,Address,Location,Email, BloodType,Amount,laDate FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType ='O-'";  
+							        $sql1  = "SELECT institution.InstitutionID,Name,PhoneNo,Address,Location,Email, BloodType,Amount FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType ='O-'";  
 
 							        $result = $con->query($sql);
 							        $result1 = $con->query($sql1);
 							      }
 							      elseif ($BloodType=== 'B-') {
-							       $sql = "SELECT Name,PhoneNo,email,Address,Sex,BloodType FROM donor WHERE BloodType = 'B-' or BloodType = 'O-'";
-							       $sql1  = "SELECT Name,PhoneNo,Address,Location,Email, BloodType,Amount,laDate FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'B-' or bloodbank.BloodType ='O-'";  
+							       $sql = "SELECT donor.DonorID,Name,PhoneNo,email,Address,Sex,BloodType FROM `donor` JOIN blood ON donor.DonorID = blood.DonorID HAVING BloodType = 'B-' or BloodType = 'O-'";
+							       $sql1  = "SELECT institution.InstitutionID,Name,PhoneNo,Address,Location,Email, BloodType,Amount FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'B-' or bloodbank.BloodType ='O-'";  
 
 							        $result1 = $con->query($sql1);  
 							        $result = $con->query($sql);
 							      }
 							      else {
-							       $sql = "SELECT Name,PhoneNo,email,Address,Sex,BloodType FROM donor WHERE BloodType = 'AB-' or BloodType = 'A-' or BloodType = 'B-' or BloodType = 'O-'";  
-							       $sql1  = "SELECT Name,PhoneNo,Address,Location,Email, BloodType,Amount,laDate FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'AB-' or bloodbank.BloodType ='A-' or bloodbank.BloodType ='B-' or bloodbank.BloodType ='O-'";  
+							       $sql = "SELECT donor.DonorID,Name,PhoneNo,email,Address,Sex,BloodType FROM `donor` JOIN blood ON donor.DonorID = blood.DonorID HAVING BloodType = 'AB-' or BloodType = 'A-' or BloodType = 'B-' or BloodType = 'O-'";  
+							       $sql1  = "SELECT institution.InstitutionID,Name,PhoneNo,Address,Location,Email, BloodType,Amount FROM `institution` JOIN bloodbank ON institution.InstitutionID = bloodbank.InstitutionID GROUP BY institution.Name, bloodbank.BloodType HAVING bloodbank.BloodType = 'AB-' or bloodbank.BloodType ='A-' or bloodbank.BloodType ='B-' or bloodbank.BloodType ='O-'";  
 							        
 							        $result1 = $con->query($sql1);
 							        $result = $con->query($sql);
@@ -204,9 +201,8 @@
 								        <td>".$row1['Location']."</td>
 								        <td>".$row1['Email']."</td>
 								        <td>".$row1['BloodType']."</td>
-								        <td>".$row1['laDate']."</td>
 								        <td>
-								        <a href='contact.php'><input value='Book' type='submit' class='btn-primary' name='submit'" . $status .  "></a>
+								        <a href='contact.php?InstitutionID=".$row1['InstitutionID']."'><input value='Book' type='submit' class='btn-primary' name='submit'></a>
 								        </td>
 								        
 								      </tr>
@@ -228,10 +224,8 @@
 								        <td>".$row['Sex']."</td>
 								         <td>".$row['email']."</td>
 								        <td>".$row['BloodType']."</td>
-								       
-								        <td></td>
 								        <td>
-								        <a href='Trial.php'><input value='Book' type='submit' class='btn-primary' name='submit'" . $status .  "></a>
+								        <a href='contact.php?DonorID=".$row['DonorID']."'><input value='Book' type='submit' class='btn-primary' name='submit'></a>
 								        </td>
 								        
 								      </tr>

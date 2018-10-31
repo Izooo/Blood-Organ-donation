@@ -44,14 +44,27 @@ session_start();
 							</div>
 							<div class="main-menubar d-flex align-items-center">
 								<nav class="hide">
-									<a href="#home">Home</a>
-									<a href="#service">Services</a>
-									<a href="#appoinment">Booking</a>
-									<a href="#consultant">Team</a>
-									<a href="#consultant">Institutions</a>
-									<a href="#consultant">Admin</a>
-									<a href="#consultant">Log In</a>
+									<?php
+									    if (!isset($_SESSION['Username'])) {
+									      echo "
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
+									        <a href='sign_in.php'>Login</a>
+									    ";
 
+									    }
+									    else
+									    {
+									      echo "
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
+									        <a href='logOut.php'>Log Out</a>
+									   ";
+									    }
+									    
+									    ?>
 								</nav>
 								<div class="menu-bar"><span class="lnr lnr-menu"></span></div>
 							</div>

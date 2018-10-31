@@ -40,13 +40,27 @@
 							</div>
 							<div class="main-menubar d-flex align-items-center">
 								<nav class="hide">
-									<a href="#home">Home</a>
-									<a href="#service">Services</a>
-									<a href="#appoinment">Booking</a>
-									<a href="#consultant">Team</a>
-									<a href="#consultant">Institutions</a>
-									<a href="#consultant">Admin</a>
-									<a href="#consultant">Log In</a>
+									<?php
+									    if (!isset($_SESSION['Username'])) {
+									      echo "
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
+									        <a href='sign_in.php'>Login</a>
+									    ";
+
+									    }
+									    else
+									    {
+									      echo "
+											<a href='index.php''>Home</a>
+									        <a href='DonorIn.php'>Donors</a>
+									        <a href='institution.php'>Institutions</a>
+									        <a href='logOut.php'>Log Out</a>
+									   ";
+									    }
+									    
+									    ?>
 
 								</nav>
 								<div class="menu-bar"><span class="lnr lnr-menu"></span></div>
@@ -82,7 +96,7 @@
 				<div class="container">
 					<div class="row justify-content-center">
 <div class="login-form">    
-    <form action="insert.php" method="post">
+    <form action="insert.php" method="post" enctype="multipart/form-data" >
     <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
       <h4 class="modal-title" style="text-align: center;">Register</h4><br>
         <div class="form-group">
@@ -100,6 +114,12 @@
          <div class="form-group">
             <input type="text" class="form-control" name="phoneNo" placeholder="Phone number" required="required">
         </div>
+           <div class="form-group">
+            <input type="text" class="form-control" name="email" placeholder="Email" required="required">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="NatId" placeholder="National ID" required="required">
+        </div>
          <div class="form-group">
             <input type="text" class="form-control" name="address" placeholder="Address" required="required">
         </div>
@@ -109,9 +129,13 @@
             <input type="radio"  name="sex" value="Male" required="required"> Male<br>
             <input type="radio"  name="sex" value="Female" required="required"> Female<br>
         <div class="form-group small clearfix">
+
             <label class="checkbox-inline"><input type="checkbox"> Remember me</label>
             <a href="#" class="forgot-link">Forgot Password?</a>
         </div> 
+        <div class="form-group">
+        	Upload Image:<br><input type="file" class="form-control" name="Image"><br>
+        </div>
         <input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">              
     </form>     
     
